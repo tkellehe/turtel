@@ -1,0 +1,159 @@
+printables = <newline><space>!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~¶
+digits = printables[:-1]
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------- MISC. ----------------------------------------------
+
+- ¤
+    A do nothing token that can be used to seperate more complicated tokens.
+
+----------------------------------------------------------------------------------------------------
+--------------------------------------------- Literals ---------------------------------------------
+
+- [printables]+
+    Creates a literal string that gets pushed onto the current stack. If the character
+    `¶` is used only once it will be translated into a fixed point number where the `¶`
+    is the decimal.
+
+----------------------------------------------------------------------------------------------------
+--------------------------------------------- Printing ---------------------------------------------
+
+- Ç
+    Clears the screen and if there is something on the stack, it will pop it off and
+    write it to the current turtle.
+
+- ç
+    Clears the screen and if there is something on the stack, it will merely read it and
+    write it to the current turtle.
+
+- Þ
+    Prints if there is something on the stack in which it will pop to print.
+
+- þ
+    Prints if there is something on the stack in which it will merely read to print.
+
+- Ñ
+    Prints if there is something on the stack in which it will pop to print.
+    When done, it will reset the current turtle.
+
+- ñ
+    Prints if there is something on the stack in which it will merely read to print.
+    When done, it will reset the current turtle.
+
+- ¢
+    Clears the contents of the current turtle.
+
+- £
+    Takes whatever is in all of the turtles and prints.
+
+----------------------------------------------------------------------------------------------------
+---------------------------------------------- Moving ----------------------------------------------
+
+    <move expr>: A string of printables that gets interpreted into an equation to move a turtle.
+                 This function will be provided an x and a y position representing the turtle's
+                 current location. When returning from the function a ` characters is used to
+                 seperate the x and y.
+
+                 Example:
+                     x-1`y
+                 This function will decrement the current x position and return as the next
+                 x position. The y position is defined after the tick and is just returning
+                 the current y position. This will print a string backwards. To optimize this
+                 the `x-1` => `$` producing:
+                     $`y
+                 Since the y does not change, the tick can be ignored therein producing:
+                     $
+        The following are some simple shortcuts:
+        ~  -> "v - "
+        !  -> " - v"
+        @  -> " + v"
+        #  -> "(v+1)"
+        $  -> "(v-1)"
+        &  -> " ** v"
+        ^  -> "v ** "
+        d  -> " / v"
+        p  -> " math.pi "
+        t  -> " (2*math.pi) "
+        cs -> " math.cos( "
+        sn -> " math.sin( "
+        tn -> " math.tan( "
+        ?  -> " if "
+        :  -> " else "
+
+- <move expr>?¦
+    If no move expression is provided, then it will attempt to pop off of the stack.
+    If successfully pops off of the stack, it will translate the string into a function
+    that is set to the current turtle which will determine the path of the turtle.
+    If there is a move expression provided the same thing will happen except the stack
+    will not be popped from and the expression will already be resolved and will not
+    translate at run time.
+    Now, there are more move expressions that are supported, but only works as a 
+    move expression known at compile time.
+
+    |  -> "x`y+1`"
+    \  -> "x+1`y+1"
+    /  -> "x-1`y+1"
+    -  -> "x`y-1"
+
+    bx(\d+),?(\d*) -> Creates a function that allows the turtle to travel around a box.
+                      The width of the box is the first parameter and the height is the second:
+                          bx2,2
+                      Is a path that will move the turtle around a 2x2 box. If it is a square
+                      by merely placing:
+                          bx2
+                      Will produce a square as well.
+                      Now, if you want a 3x4
+                          bx3,4
+                      Then the comma can be removed:
+                          bx34
+                      This means to get a 34x34 square:
+                          bx34,
+                      But, if a 100x100 square is desired:
+                          bx100
+                      Will work because the optimization of removing the comma to get a 3x4
+                      only works if there is two digits.
+
+
+- ʂ
+    Steps the current turtle. In other words, moves the turtle based off of the move function.
+
+- ɼ(digits?)
+    Steps back to the previous location storing off this location of the current turtle. Therein
+    if called twice, it will jump between where it is now and where it was.
+    If one of the characters specified are provided, it will jump back to that location
+    not saving the current location based off of a base 96 number.
+    Currently, a turtle only tracks its past 96 locations.
+
+
+----------------------------------------------------------------------------------------------------
+---------------------------------------------- Loops -----------------------------------------------
+
+- €
+    Ends a particular loop or other context specific token.
+
+- ḷ
+    Loops the contained code endlessly and if an end token is not used to close the loop
+    the end of the file will be used.
+
+
+----------------------------------------------------------------------------------------------------
+---------------------------------------------- Delays ----------------------------------------------
+
+- ẉ([shqet]?)
+    Causes the program to wait for the specified number of milliseconds. If nothing is provided
+    the top of the stack will be consumed and converted to a number to be used for the wait.
+    s -> 1000ms
+    h -> 500ms
+    q -> 250ms
+    e -> 125ms
+    t -> 100ms
+
+- Ẉ([shqet]?)
+    Causes the program to wait for the specified number of milliseconds. If nothing is provided
+    the top of the stack will be consumed and converted to a number to be used for the wait.
+    This wait is similar to the other, but will insert a wait after every token that prints.
+    s -> 1000ms
+    h -> 500ms
+    q -> 250ms
+    e -> 125ms
+    t -> 100ms

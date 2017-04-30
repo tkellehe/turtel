@@ -1,0 +1,50 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import turtel
+import sys
+
+translation = "eval"
+option = sys.argv[1]
+code = None
+output = None
+
+##########################################################################################
+# Figure out what the option is.
+if option == "--python" or option == "-p":
+    translation = "python"
+    file = open(sys.argv[2], "rb")
+    code = file.read()
+    file.close()
+    output = open(sys.argv[3], "w")
+elif option == "--javascript" or option == "-j":
+    SystemExit("Javascript currently not supported.")
+elif option == "--eval" or option == "-e":
+    translation = "eval"
+    code = open(sys.argv[2], "rb").read()
+else:
+    SystemExit("Uh oh...")
+
+##########################################################################################
+# Actually Evaluate what is requested to do.
+if translation == "eval":
+    # Try catch here for if cannot compile.
+    code = turtel.to_python(code.decode("UTF-8").replace("\r", ""))
+    
+    # This goes under finally.
+    sys.argv = sys.argv[2:]
+    exec(code)
+elif translation == "python":
+    # Try catch here for if cannot compile.
+    code = turtel.to_python(code.decode("UTF-8").replace("\r", ""))
+
+    # This goes under finally.
+    output.write(code)
+    output.close()
+elif translation == "javascript":
+    # Try catch here for if cannot compile.
+    code = turtel.to_javascript(code.decode("UTF-8").replace("\r", ""))
+    
+    # This goes under finally.
+    output.write(code)
+    output.close()
