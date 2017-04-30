@@ -15,3 +15,9 @@ This will translate the _Turtel_ script into _Python_ then executes the script. 
 object thing:)
 
     turtel -e script.tel "[100, 'string']"
+
+If you need the _Python_ file generated use the `-p` option and specify the file to write it to:
+
+    turtel -p script.tel script.py
+
+Note that currently, the _Python_ file must be executed where it can have access to modules within _Turtel_.
