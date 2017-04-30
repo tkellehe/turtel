@@ -11,4 +11,7 @@ _Turtel_ script, use the following:
 
     turtel -e script.tel
 
-This will translate the _Turtel_ script into _Python_ then executes the script.
+This will translate the _Turtel_ script into _Python_ then executes the script. To pass in parameters it must be in a string array
+object thing:)
+
+    turtel -e script.tel "[100, 'string']"
