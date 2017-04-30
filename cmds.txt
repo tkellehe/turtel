@@ -4,8 +4,33 @@ digits = printables[:-1]
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------- MISC. ----------------------------------------------
 
-- ¤
+- ¦
     A do nothing token that can be used to seperate more complicated tokens.
+
+- ¥
+    If is the first token, it will turn off auto popping. Else, if there is something on the
+    top of the stack, it will change from a number to a string or string to a number.
+
+- °
+    Pops from the stack and pushes to the variable A.
+- ¹
+    Pops from the variable A and pushes onto the stack. If A is empty, it will reverse the stack.
+- ²
+    Copy from the stack and push to the variable A.
+- ³
+    Copy from A and push on to the stack. If A is empty, it will push onto A by reference.
+- ⁴
+    Push the reference of the top of A onto the stack.
+- ⁵
+    Pops from the stack and pushes to the variable B.
+- ⁶
+    Pops from the variable B and pushes onto the stack. If B is empty, it will reverse the stack.
+- ⁷
+    Copy from the stack and push to the variable B.
+- ⁸
+    Copy from B and push on to the stack. If B is empty, it will push onto B by reference.
+- ⁹
+    Push the reference of the top of B onto the stack.
 
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Literals ---------------------------------------------
@@ -80,7 +105,7 @@ digits = printables[:-1]
         ?  -> " if "
         :  -> " else "
 
-- <move expr>?¦
+- <move expr>?¤
     If no move expression is provided, then it will attempt to pop off of the stack.
     If successfully pops off of the stack, it will translate the string into a function
     that is set to the current turtle which will determine the path of the turtle.
