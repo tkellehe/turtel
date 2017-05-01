@@ -36,13 +36,13 @@ def wait(milliseconds):
 def to_lambda_var_string(var, string):
     if string == "":
         return var
-    string = string.replace("~", var + " - ")
-    string = string.replace("!", " - " + var)
-    string = string.replace("@", " + " + var)
-    string = string.replace("&", " ** " + var)
+    string = string.replace("~", " " + var + " - ")
+    string = string.replace("!", " - " + var + " ")
+    string = string.replace("@", " + " + var + " ")
+    string = string.replace("&", " ** " + var + " ")
     string = string.replace("^", var + " ** ")
-    string = string.replace("d", " / " + var)
-    string = string.replace("D", var + " / ")
+    string = string.replace("d", " / " + var + " ")
+    string = string.replace("D", " " + var + " / ")
     string = string.replace("#", "(" + var + "+1)")
     string = string.replace("$", "(" + var + "-1)")
     string = string.replace("p", " math.pi ")

@@ -98,14 +98,15 @@ digits = printables[:-1]
                  Since the y does not change, the tick can be ignored therein producing:
                      $
         The following are some simple shortcuts:
-        ~  -> "v - "
-        !  -> " - v"
-        @  -> " + v"
+        ~  -> " v - "
+        !  -> " - v "
+        @  -> " + v "
         #  -> "(v+1)"
         $  -> "(v-1)"
-        &  -> " ** v"
-        ^  -> "v ** "
-        d  -> " / v"
+        &  -> " ** v "
+        ^  -> " v ** "
+        d  -> " / v "
+        D  -> " v / "
         p  -> " math.pi "
         t  -> " (2*math.pi) "
         cs -> " math.cos( "
