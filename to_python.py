@@ -463,7 +463,7 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ɼ)(['+re.escape(
     0, tokenize))
 
 #########################################################################################
-# A command NOOP
+# A command NOOP.
 def tokenize(tkn):
     def translator(tkn):
         tkn.props.lines.append("# NOOP")
@@ -471,4 +471,37 @@ def tokenize(tkn):
     tokenize_basics(tkn)
     tkn.translate = translator
 script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>¦)'),
+    0, tokenize))
+
+#########################################################################################
+# Place top of the stack to the bottom.
+def tokenize(tkn):
+    def translator(tkn):
+        tkn.props.lines.append("if len(stack):")
+        tkn.props.lines.append("    stack.insert(0, stack.pop())")
+        
+    tokenize_basics(tkn)
+    tkn.translate = translator
+script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ȧ)'),
+    0, tokenize))
+
+#########################################################################################
+# Flattens a string by characters and floors a number.
+def tokenize(tkn):
+    def translator(tkn):
+        tkn.props.lines.append("if len(stack):")
+        tkn.props.lines.append("    popped = stack.pop()")
+        tkn.props.lines.append("    if popped.is_number:")
+        tkn.props.lines.append("        popped.value = popped.split('¶')[0]")
+        tkn.props.lines.append("        stack.append(popped)")
+        tkn.props.lines.append("    elif popped.is_string:")
+        tkn.props.lines.append("        chars = popped.value.split('¶')")
+        tkn.props.lines.append("        if len(chars) == 1:")
+        tkn.props.lines.append("            chars = list(popped.value)")
+        tkn.props.lines.append("        for c in reversed(chars):")
+        tkn.props.lines.append("            stack.append(ITEM(c))")
+        
+    tokenize_basics(tkn)
+    tkn.translate = translator
+script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ḟ)'),
     0, tokenize))

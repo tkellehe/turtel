@@ -32,6 +32,15 @@ digits = printables[:-1]
 - ⁹
     Push the reference of the top of B onto the stack.
 
+
+----------------------------------------------------------------------------------------------------
+-------------------------------------------- Operators ---------------------------------------------
+
+- ḟ
+    If top is a string, split by the characters and push them onto the stack. If the `¶` is
+    present, it will split the string based off of that instead.
+    If top is a number, mutate by taking the floor of the value. In others remove the decimal.
+
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Literals ---------------------------------------------
 
@@ -182,3 +191,10 @@ digits = printables[:-1]
     q -> 250ms
     e -> 125ms
     t -> 100ms
+
+
+----------------------------------------------------------------------------------------------------
+---------------------------------------------- Stack -----------------------------------------------
+
+- ȧ
+    Takes what is at the bottom of the stack and places it at the bottom.
