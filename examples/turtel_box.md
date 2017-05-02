@@ -12,6 +12,6 @@ This is just to show off the box move expression.
               ḷ      # Loops the folloing code endlessly.
                ¢     # Clears the current turtle of all text.
                 ñ    # Writes to the current turtle but does not change its position then prints.
-                 ʂ   # Moves the current turtle a single step further along is path.
+                 ʂ   # Moves the current turtle a single step further along its path.
                   ẉt # Waits for 100 milliseconds.
                      # Implicit end of the loop.
