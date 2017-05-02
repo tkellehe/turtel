@@ -33,7 +33,7 @@ class ITEM:
         self.is_number = True
     def printify(self):
         if self.is_string:
-            return self.value.replace(characters.decimal, "")
+            return self.value
         # For numbers the `¶` should be used as a decimal.
         elif self.is_number:
             s = base96.string_base96_to_base10(self.value)
