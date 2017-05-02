@@ -43,6 +43,14 @@ def base96_to_base10(value):
         return float(str(whole_base96_to_base10(parts[0])) + "." + str(whole_base96_to_base10(parts[1])))
     raise Exception("To many decimals to interpret into a base10 from a base96.")
 
+def string_base96_to_base10(value):
+    parts = value.split(characters.decimal)
+    if len(parts) == 1:
+        return str(int(whole_base96_to_base10(parts[0])))
+    if len(parts) == 2:
+        return str(whole_base96_to_base10(parts[0])) + "." + str(whole_base96_to_base10(parts[1]))
+    raise Exception("To many decimals to interpret into a base10 from a base96.")
+
 #########################################################################################
 # Returns true if lhs is smaller.
 def whole_less_than(lhs, rhs):
