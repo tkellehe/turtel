@@ -5,6 +5,8 @@ import re
 import math
 import characters
 
+EMPTY_STRING = ""
+
 def printify(turtles):
     max_width = 0
     max_height = 0
@@ -21,7 +23,7 @@ def printify(turtles):
     for t in turtles:
         for r in range(0, len(t.grid)):
             for c in range(0, len(t.grid[r])):
-                if t.grid[r][c] != " ":
+                if t.grid[r][c] != EMPTY_STRING:
                     temp.grid[r][c] = t.grid[r][c]
     return temp.printify()
 
@@ -96,6 +98,8 @@ def move_box(x,y,box):
     if x == box.x and y > box.y:
         return (x, y-1)
 
+
+    
 class Turtle:
     def __init__(self):
         self.grid = [[" "]]
@@ -108,7 +112,9 @@ class Turtle:
     def printify(self):
         output = ""
         for row in self.grid:
-            output += "".join(row) + "\n"
+            for c in row:
+                output += " " if c == EMPTY_STRING else c
+            output += "\n"
         return output[:-1]
     def write(self, value):
         value = str(value)
@@ -117,7 +123,7 @@ class Turtle:
     def clear(self):
         for r in self.grid:
             for i in range(0, len(r)):
-                r[i] = " "
+                r[i] = EMPTY_STRING
     def step(self):
         old = self.pos
         self.pos = self.move(self.pos[0], self.pos[1])
@@ -137,29 +143,29 @@ class Turtle:
     #####################################################################################
     # Helpers for writing to the grid.
     def insert_row(self, index):
-        self.grid.insert(index, [" "])
+        self.grid.insert(index, [EMPTY_STRING])
         max_len = 0
         for row in self.grid:
             if len(row) > max_len:
                 max_len = len(row)
         for row in self.grid:
             while len(row) < max_len:
-                row.append(" ")
+                row.append(EMPTY_STRING)
     def insert_col(self, row_index, index):
         while len(self.grid) <= row_index:
             self.insert_row(len(self.grid))
         while len(self.grid[row_index]) < index:
-            self.grid[row_index].append(" ")
-        self.grid[row_index].insert(index, " ")
+            self.grid[row_index].append(EMPTY_STRING)
+        self.grid[row_index].insert(index, EMPTY_STRING)
         for row in self.grid:
-            row.insert(index, " ")
+            row.insert(index, EMPTY_STRING)
         max_len = 0
         for row in self.grid:
             if len(row) > max_len:
                 max_len = len(row)
         for row in self.grid:
             while len(row) < max_len:
-                row.append(" ")
+                row.append(EMPTY_STRING)
     def expand(self, width, height):
         while len(self.grid) < height:
             self.insert_row(len(self.grid))
@@ -170,7 +176,7 @@ class Turtle:
         if max_len < width:
             for row in self.grid:
                 while len(row) < width:
-                    row.append(" ")
+                    row.append(EMPTY_STRING)
     def single_write(self, char):
         # Also need to see if pos is negative and insert until it is positive.
         if self.pos[1] < 0:
