@@ -66,24 +66,36 @@ digits = printables[:-1]
 - Ç
     Clears the screen and if there is something on the stack, it will pop it off and
     write it to the current turtle.
+    If there is nothing on the stack, it will get by reference off of stack A
+    and push to the stack then print without removing.
 
 - ç
     Clears the screen and if there is something on the stack, it will merely read it and
     write it to the current turtle.
+    If there is nothing on the stack, it will get by reference off of stack B
+    and push to the stack then print without removing.
 
 - Þ
     Prints if there is something on the stack in which it will pop to print.
+    If there is nothing on the stack, it will get by reference off of stack A
+    and push to the stack then print without removing.
 
 - þ
     Prints if there is something on the stack in which it will merely read to print.
+    If there is nothing on the stack, it will get by reference off of stack B
+    and push to the stack then print without removing.
 
 - Ñ
     Prints if there is something on the stack in which it will pop to print.
     When done, it will reset the current turtle.
+    If there is nothing on the stack, it will get by reference off of stack A
+    and push to the stack then print without removing.
 
 - ñ
     Prints if there is something on the stack in which it will merely read to print.
     When done, it will reset the current turtle.
+    If there is nothing on the stack, it will get by reference off of stack B
+    and push to the stack then print without removing.
 
 - ¢
     Clears the contents of the current turtle.
@@ -210,3 +222,6 @@ digits = printables[:-1]
 
 - ȧ
     Takes what is at the bottom of the stack and places it at the bottom.
+
+- ḃ
+    Pop the top of the stack off.
