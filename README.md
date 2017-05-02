@@ -4,6 +4,8 @@ _Turtel_ is an esoteric programming language designed around ASCII art/animation
 for code golfing challenges and is currently under construction. This will hopefully out do my other language _Noodel_ in these types
 of challenges. Although _Noodel_ did well, it would completely fail if there was any kind of complicated string manipulation needed.
 
+You can visit the [wiki page](https://github.com/tkellehe/turtel/wiki) for more information.
+
 ## Compiling
 
 _Turtel_ first gets translated into _Python_ which is then executed. This simplifies debugging more than anything. Now to simply run a
