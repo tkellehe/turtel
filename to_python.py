@@ -28,15 +28,16 @@ def main():
     A = []
     B = []
     turtles = [Turtle()]
-    implicit_pop_to_display = True
     current_turtle = 0
     cout(printify(turtles))
 
 """
-footer = """
-    if implicit_pop_to_display and len(stack):
+implicit_pop_to_display_code = """
+    if len(stack):
         popped = stack.pop()
         turtles[current_turtle].write(popped.printify())
+"""
+footer = """
     cout(printify(turtles))
 """
 
@@ -47,6 +48,7 @@ script = interpreter.Script()
 def translate(code):
     script.props.indent = 1
     script.props.identifier = 1
+    script.props.implicit_pop_to_display = True
     script.parse(code)
     output = header
     # with open("item.py", "r") as file_py:
@@ -104,6 +106,8 @@ def translate(code):
                     script.props.indent = 1
                 output += (INDENT*script.props.indent) + line[1] + "\n"
 
+    if script.props.implicit_pop_to_display:
+        output += implicit_pop_to_display_code
     output += footer
 
     output += """
@@ -208,7 +212,7 @@ script.add(interpreter.Snippet(interpreter.REGEX("(?P<literal>[" + re.escape(cha
 def tokenize(tkn):
     def translator(tkn):
         if tkn.index == 0:
-            tkn.props.lines.append("implicit_pop_to_display = False")
+            tkn.snippet.script.props.implicit_pop_to_display = False
         else:
             tkn.props.lines.append("if len(stack):")
             tkn.props.lines.append("    if stack[len(stack)-1].is_number:")
