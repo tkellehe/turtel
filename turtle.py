@@ -192,6 +192,8 @@ class Turtle:
             self.pos = (0, self.pos[1]+1)
             self.insert_row(self.pos[1])
         else:
+            if char == "¶":
+                char = EMPTY_STRING
             self.expand(self.pos[0]+1, self.pos[1]+1)
             self.grid[self.pos[1]][self.pos[0]] = char
             self.step()
