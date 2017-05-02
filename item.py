@@ -21,7 +21,7 @@ class ITEM:
             self.is_string = value.is_string
             self.is_number = value.is_number
         else:
-            self.value = base96.base10_to_base96(value)
+            self.value = base96.base10_to_base96(float(value))
             self.to_number()
     def to_string(self):
         self.type = "string"
@@ -36,7 +36,7 @@ class ITEM:
             return self.value.replace(characters.decimal, "")
         # For numbers the `¶` should be used as a decimal.
         elif self.is_number:
-            s = str(base96.base96_to_base10(self.value))
+            s = base96.string_base96_to_base10(self.value)
             if s[-2:] == ".0":
                 return s[:-2]
             return s
@@ -46,20 +46,31 @@ class ITEM:
         # For numbers the `¶` should be used as a decimal.
         elif self.is_number:
             return base96.base96_to_base10(self.value)
-    def add(self, rhs):
+    def add_to(self, rhs):
         if self.is_string:
             if type(rhs) is ITEM:
                 if rhs.is_string:
-                    return ITEM(self.value + rhs.value)
+                    self.value += rhs.value
                 elif rhs.is_number:
-                    return ITEM(self.value + str(base96.base96_to_base10(rhs.value)))
+                    self.value = base96.add(self.value, rhs.value)
             else:
-                return ITEM(self.value + str(rhs))
+                self.value += str(rhs)
         elif self.is_number:
             if type(rhs) is ITEM:
-                if rhs.is_string:
-                    return ITEM(self.value + rhs.value)
-                elif rhs.is_number:
-                    return ITEM(base96.add(self.value, rhs.value))
+                self.value = base96.add(self.value, rhs.value)
             else:
-                return ITEM(self.value + float(rhs))
+                self.value = base96.add(self.value, base96.base10_to_base96(float(rhs)))
+    def add_to_swap(self, lhs):
+        if self.is_string:
+            if type(lhs) is ITEM:
+                if lhs.is_string:
+                    self.value = lhs.value + self.value
+                elif lhs.is_number:
+                    self.value = base96.add(lhs.value, self.value)
+            else:
+                self.value = str(lhs) + self.value
+        elif self.is_number:
+            if type(lhs) is ITEM:
+                self.value = base96.add(lhs.value, self.value)
+            else:
+                self.value = base96.add(base96.base10_to_base96(float(lhs)), self.value)

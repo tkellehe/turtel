@@ -41,6 +41,15 @@ digits = printables[:-1]
     present, it will split the string based off of that instead.
     If top is a number, mutate by taking the floor of the value. In others remove the decimal.
 
+- ⁺[*sS]?
+    Adds the top two items of the stack and places the result into the first item removing the
+    other. What ever type the top of the stack is, that other will be converted to that type.
+    If the option `*` is used, the entire stack will be added to the first item on the stack.
+    If the option `s` is used, then the addition will be done in the context of the first item
+    but instead treat the second item as a left hand argument.
+    If the option `S` is used, the entire stack will be added up and added as the left hand side
+    basically `*` and `s` option combined.
+
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Literals ---------------------------------------------
 

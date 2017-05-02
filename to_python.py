@@ -486,6 +486,38 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ȧ)'),
     0, tokenize))
 
 #########################################################################################
+# Adds the top two items on the stack.
+def tokenize(tkn):
+    def translator(tkn):
+        if tkn.params[0].value == "":
+            tkn.props.lines.append("if len(stack) > 1:")
+            tkn.props.lines.append("    popped = stack.pop()")
+            tkn.props.lines.append("    popped.add_to(stack.pop())")
+            tkn.props.lines.append("    stack.append(popped)")
+        elif tkn.params[0].value == "*":
+            tkn.props.lines.append("if len(stack) > 1:")
+            tkn.props.lines.append("    popped = stack.pop()")
+            tkn.props.lines.append("    while len(stack):")
+            tkn.props.lines.append("        popped.add_to(stack.pop())")
+            tkn.props.lines.append("    stack.append(popped)")
+        elif tkn.params[0].value == "s":
+            tkn.props.lines.append("if len(stack) > 1:")
+            tkn.props.lines.append("    popped = stack.pop()")
+            tkn.props.lines.append("    popped.add_to_swap(stack.pop())")
+            tkn.props.lines.append("    stack.append(popped)")
+        elif tkn.params[0].value == "S":
+            tkn.props.lines.append("if len(stack) > 1:")
+            tkn.props.lines.append("    popped = stack.pop()")
+            tkn.props.lines.append("    while len(stack):")
+            tkn.props.lines.append("        popped.add_to_swap(stack.pop())")
+            tkn.props.lines.append("    stack.append(popped)")
+
+    tokenize_basics(tkn)
+    tkn.translate = translator
+script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>⁺)([*sS]?)'),
+    0, tokenize))
+
+#########################################################################################
 # Flattens a string by characters and floors a number.
 def tokenize(tkn):
     def translator(tkn):

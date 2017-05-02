@@ -11,7 +11,8 @@ Extendable = type('Extendable', (object,), {})
 
 def main():
     args = []
-    args.extend(sys.argv[1:])
+    if len(sys.argv) > 1:
+        args.extend(eval(sys.argv[1]))
     for arg in range(0, len(args)):
         args[arg] = itemize(args[arg])
     stack = []
@@ -24,16 +25,16 @@ def main():
     current_turtle = 0
     cout(printify(turtles))
 
-    stack.append(ITEM("abc"))
+    stack.append(ITEM("A"))
     # NOOP
-    stack.append(ITEM("def"))
-    if len(stack):
-        A.append(stack.pop())
-    if len(stack):
-        if stack[len(stack)-1].is_number:
-            stack[len(stack)-1].to_string()
-        elif stack[len(stack)-1].is_string:
-            stack[len(stack)-1].to_number()
+    stack.append(ITEM("B"))
+    # NOOP
+    stack.append(ITEM("C"))
+    if len(stack) > 1:
+        popped = stack.pop()
+        while len(stack):
+            popped.add_to(stack.pop())
+        stack.push(popped)
 
     if implicit_pop_to_display and len(stack):
         popped = stack.pop()
