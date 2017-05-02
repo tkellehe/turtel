@@ -57,7 +57,8 @@ digits = printables[:-1]
 - [printables]+
     Creates a literal string that gets pushed onto the current stack. If the character
     `¶` is used only once it will be translated into a fixed point number where the `¶`
-    is the decimal.
+    is the decimal. If the literal is a string and is printed then the `¶` will be used
+    to represent a skip.
 
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Printing ---------------------------------------------
