@@ -39,7 +39,8 @@ digits = printables[:-1]
 - ḟ
     If top is a string, split by the characters and push them onto the stack. If the `¶` is
     present, it will split the string based off of that instead.
-    If top is a number, mutate by taking the floor of the value. In others remove the decimal.
+    If top is a number, mutate by taking the floor of the value. In other words,
+    remove the decimal.
 
 - ⁺[*sS]?
     Adds the top two items of the stack and places the result into the first item removing the
