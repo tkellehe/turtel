@@ -90,8 +90,8 @@ class Snippet:
         if(match != None):
             token = Token(match, code, start, end)
             token.snippet = self
-            self.traverse(token)
-            return token
+            r = self.traverse(token)
+            return token if r == None or r == True else None
         return None
     def donothing(self, token):
         pass
