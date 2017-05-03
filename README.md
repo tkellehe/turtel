@@ -8,12 +8,11 @@ You can visit the [wiki page](https://github.com/tkellehe/turtel/wiki) for more 
 
 ## Compiling
 
-_Turtel_ first gets translated into _Python_ which is then executed. This simplifies debugging more than anything. Now to simply run a
-_Turtel_ script, use the following:
+_Turtel_ is a transpiled language which currently gets translated into _Python_. This simplifies debugging more than anything. Once transpliled it will then execute the _Python_ code. Now to simply run a _Turtel_ script, use the following:
 
     turtel -e script.tel
 
-This will translate the _Turtel_ script into _Python_ then executes the script. To pass in parameters it must be in a string array
+This will translate the _Turtel_ script into _Python_ then execute the script. To pass in parameters it must be in a string array
 object thing:)
 
     turtel -e script.tel "[100, 'string']"
