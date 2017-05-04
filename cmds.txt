@@ -221,7 +221,7 @@ digits = printables[:-1]
 ---------------------------------------------- Stack -----------------------------------------------
 
 - ȧ
-    Takes what is at the bottom of the stack and places it at the bottom.
+    Takes what is at the top of the stack and places it at the bottom.
 
 - ḃ
     Pop the top of the stack off.
