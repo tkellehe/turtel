@@ -9,12 +9,8 @@ Which is __23 bytes__ and with _Turtel_ it is the following and is __22 bytes__:
     Loading... Þ|/-\ḟḷñȧẉq
 
     Loading... Þ           # Places the fixed "Loading... " onto the screen.
-    Loading...             # Pushes on the string "Loading... " onto the top of the stack.
-               Þ           # Pops the string off of the stack and writes it to the current turtle then prints.
 
                 |/-\ḟ      # Makes the stack -> ["|", "/", "-", "\"]
-                |/-\       # Pushes on the string literal onto the top of the stack.
-                    ḟ      # Pops the top of the stack and flattens by characters pushing each onto the stack.
 
                      ḷñȧẉq # The main animation loop.
                      ḷ     # Endlessly loop the following code.
