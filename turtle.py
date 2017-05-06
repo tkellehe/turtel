@@ -53,6 +53,7 @@ def to_lambda_var_string(var, string):
     string = string.replace("sn", " math.sin( ")
     string = string.replace("tn", " math.tan( ")
     string = string.replace("sq", " math.sqrt( ")
+    string = string.replace("_", " math.floor( ")
     string = string.replace("?", " if ")
     string = string.replace(":", " else ")
     return "(" + string + ")"
@@ -79,16 +80,22 @@ def to_lambda_move_string(string):
 def to_lambda_move(string):
     return eval(to_lambda_move_string(string))
 
-def on_box_bound(x,y,box):
-    if box.x <= x and x < (box.x + box.width) and box.y <= y and y < (box.y + box.height):
-        return (x == box.x) or (x == (box.x + box.width - 1)) or (y == box.y) or (y == (box.y + box.height - 1))
-    return False
+def in_box_bound(x,y,box):
+    return box.x <= x and x < (box.x + box.width) and box.y <= y and y < (box.y + box.height)
 
+def on_box_bound(x,y,box):
+    return in_box_bound(x,y,box) and ((x == box.x) or (x == (box.x + box.width - 1)) or (y == box.y) or (y == (box.y + box.height - 1)))
 
 def move_box(x,y,box):
     if not on_box_bound(x,y,box):
-        box.x = x
-        box.y = y
+        if x < box.x:
+            x = box.x
+        elif (box.x + box.width) < x:
+            x = box.x + box.width
+        if y < box.y:
+            y = box.y
+        elif (box.y + box.height) < y:
+            y = box.y + box.height
     if x < (box.x + box.width - 1) and y == box.y:
         return (x+1, y)
     if x == (box.x + box.width - 1) and y < (box.y + box.height - 1):
@@ -98,8 +105,24 @@ def move_box(x,y,box):
     if x == box.x and y > box.y:
         return (x, y-1)
 
+def move_fill(x,y,box):
+    if not in_box_bound(x,y,box):
+        if x < box.x:
+            x = box.x
+        elif (box.x + box.width) < x:
+            x = box.x + box.width
+        if y < box.y:
+            y = box.y
+        elif (box.y + box.height) < y:
+            y = box.y + box.height
+    if x < (box.x + box.width - 1):
+        return (x+1, y)
+    elif y < (box.y + box.height - 1):
+        return (box.x, y+1)
+    else:
+        return (box.x, box.y)
 
-    
+
 class Turtle:
     def __init__(self):
         self.grid = [[" "]]
@@ -178,6 +201,13 @@ class Turtle:
                 while len(row) < width:
                     row.append(EMPTY_STRING)
     def single_write(self, char):
+        self.write_char(char)
+        if char == "\n":
+            self.pos = (0, self.pos[1]+1)
+        else:
+            self.step()
+
+    def write_char(self, char):
         # Also need to see if pos is negative and insert until it is positive.
         if self.pos[1] < 0:
             for i in range(-self.pos[1], 0, -1):
@@ -189,12 +219,8 @@ class Turtle:
             self.pos = (0, self.pos[1])
         if char == "\n":
             self.expand(0, self.pos[1]+1)
-            self.pos = (0, self.pos[1]+1)
-            self.insert_row(self.pos[1])
-        elif char == "¶":
-            self.expand(self.pos[0]+1, self.pos[1]+1)
-            self.step()
+            self.insert_row(self.pos[1]+1)
         else:
             self.expand(self.pos[0]+1, self.pos[1]+1)
-            self.grid[self.pos[1]][self.pos[0]] = char
-            self.step()
+            if char != u"¶":
+                self.grid[self.pos[1]][self.pos[0]] = char

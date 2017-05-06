@@ -170,6 +170,11 @@ digits = printables[:-1]
                           bx100
                       Will work because the optimization of removing the comma to get a 3x4
                       only works if there is two digits.
+                      Note, if the position of the turtel is moved off of this path 
+                      (for instance a jump was used) then when the turtel goes to step again
+                      it will be corrected back to this path.
+    fl(\d+),?(\d*) -> Similar to `bx` it instead will cause the text to fill the box wrapping
+                      around each line.
 
 
 - ʂ

@@ -426,6 +426,7 @@ def tokenize(tkn):
     def translator(tkn):
         if len(tkn.params):
             box_match = re.match(r"^(bx)(\d+),?(\d*)$", tkn.params[0].value)
+            fill_match = re.match(r"^(fl)(\d+),?(\d*)$", tkn.params[0].value)
             if tkn.params[0].value == "\\":
                 tkn.props.lines.append("turtles[current_turtle].move = lambda x,y: (x+1, y+1)")
             elif tkn.params[0].value == "/":
@@ -456,6 +457,28 @@ def tokenize(tkn):
                 tkn.props.lines.append(name + ".width = " + str(width))
                 tkn.props.lines.append(name + ".height = " + str(height))
                 tkn.props.lines.append("turtles[current_turtle].move = lambda x,y: move_box(x,y,"+name+")")
+            elif fill_match != None:
+                width = 0
+                height = 0
+                if len(fill_match.groups()) == 3:
+                    cap = fill_match.group(0)
+                    if cap[len(cap)-1] == "," or len(fill_match.group(2)) != 2:
+                        width = int(fill_match.group(2))
+                        height = width
+                    else:
+                        width = int(fill_match.group(2)[0])
+                        height = int(fill_match.group(2)[1])
+                if len(fill_match.groups()) == 4:
+                    width = int(fill_match.group(2))
+                    height = int(fill_match.group(3))
+                name = "fill_" + str(tkn.snippet.script.props.identifier)
+                tkn.snippet.script.props.identifier += 1
+                tkn.props.lines.append(name + " = Extendable()")
+                tkn.props.lines.append(name + ".x = turtles[current_turtle].pos[0]")
+                tkn.props.lines.append(name + ".y = turtles[current_turtle].pos[1]")
+                tkn.props.lines.append(name + ".width = " + str(width))
+                tkn.props.lines.append(name + ".height = " + str(height))
+                tkn.props.lines.append("turtles[current_turtle].move = lambda x,y: move_fill(x,y,"+name+")")
             else:
                 tkn.props.lines.append("turtles[current_turtle].move = " + turtle.to_lambda_move_string(tkn.params[0].value))
         else:

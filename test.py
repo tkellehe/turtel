@@ -24,27 +24,14 @@ def main():
     current_turtle = 0
     cout(printify(turtles))
 
-    turtles[current_turtle].write("Loading... ")
+    fill_1 = Extendable()
+    fill_1.x = turtles[current_turtle].pos[0]
+    fill_1.y = turtles[current_turtle].pos[1]
+    fill_1.width = 3
+    fill_1.height = 7
+    turtles[current_turtle].move = lambda x,y: move_fill(x,y,fill_1)
+    turtles[current_turtle].write("012345678ABC")
     cout(printify(turtles))
-    stack.append(ITEM('\\'))
-    stack.append(ITEM('-'))
-    stack.append(ITEM('/'))
-    stack.append(ITEM('|'))
-    while True:
-        
-        if len(stack) > 0:
-            pos = turtles[current_turtle].pos
-            turtles[current_turtle].write(stack[len(stack)-1].printify())
-            turtles[current_turtle].pos = pos
-        elif len(B):
-            stack.append(B[len(B)-1])
-            pos = turtles[current_turtle].pos
-            turtles[current_turtle].write(stack[0].printify())
-            turtles[current_turtle].pos = pos
-        cout(printify(turtles))
-        if len(stack):
-            stack.insert(0, stack.pop())
-        wait(250)
 
     if len(stack):
         popped = stack.pop()
