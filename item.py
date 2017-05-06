@@ -27,10 +27,12 @@ class ITEM:
         self.type = "string"
         self.is_string = True
         self.is_number = False
+        return self
     def to_number(self):
         self.type = "number"
         self.is_string = False
         self.is_number = True
+        return self
     def printify(self):
         if self.is_string:
             return self.value

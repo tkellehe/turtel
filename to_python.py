@@ -134,8 +134,7 @@ import re
 def tokenize(tkn):
     def translator(tkn):
         if tkn.literal.value.count(u'¶') == 1:
-            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(tkn.literal.value) + "\"))")
-            tkn.props.lines.append("stack[len(stack)-1].to_number()");
+            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(tkn.literal.value) + "\").to_number())")
         else:
             tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(tkn.literal.value) + "\"))")
 
