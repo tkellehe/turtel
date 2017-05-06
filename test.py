@@ -21,24 +21,35 @@ def main():
     A = []
     B = []
     turtles = [Turtle()]
-    implicit_pop_to_display = True
     current_turtle = 0
     cout(printify(turtles))
 
-    stack.append(ITEM("A"))
-    # NOOP
-    stack.append(ITEM("B"))
-    # NOOP
-    stack.append(ITEM("C"))
-    if len(stack) > 1:
-        popped = stack.pop()
-        while len(stack):
-            popped.add_to(stack.pop())
-        stack.push(popped)
+    turtles[current_turtle].write("Loading... ")
+    cout(printify(turtles))
+    stack.append(ITEM('\\'))
+    stack.append(ITEM('-'))
+    stack.append(ITEM('/'))
+    stack.append(ITEM('|'))
+    while True:
+        
+        if len(stack) > 0:
+            pos = turtles[current_turtle].pos
+            turtles[current_turtle].write(stack[len(stack)-1].printify())
+            turtles[current_turtle].pos = pos
+        elif len(B):
+            stack.append(B[len(B)-1])
+            pos = turtles[current_turtle].pos
+            turtles[current_turtle].write(stack[0].printify())
+            turtles[current_turtle].pos = pos
+        cout(printify(turtles))
+        if len(stack):
+            stack.insert(0, stack.pop())
+        wait(250)
 
-    if implicit_pop_to_display and len(stack):
+    if len(stack):
         popped = stack.pop()
         turtles[current_turtle].write(popped.printify())
+
     cout(printify(turtles))
 
 

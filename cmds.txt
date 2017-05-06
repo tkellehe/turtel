@@ -36,7 +36,7 @@ digits = printables[:-1]
 ----------------------------------------------------------------------------------------------------
 -------------------------------------------- Operators ---------------------------------------------
 
-- ḟ
+- [printables]*ḟ
     If top is a string, split by the characters and push them onto the stack. If the `¶` is
     present, it will split the string based off of that instead.
     If top is a number, mutate by taking the floor of the value. In other words,
@@ -54,7 +54,7 @@ digits = printables[:-1]
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Literals ---------------------------------------------
 
-- [printables]+
+- (?:“([printables]*)”?)|(?:“?([printables]*)”)
     Creates a literal string that gets pushed onto the current stack. If the character
     `¶` is used only once it will be translated into a fixed point number where the `¶`
     is the decimal. If the literal is a string and is printed then the `¶` will be used
@@ -63,35 +63,35 @@ digits = printables[:-1]
 ----------------------------------------------------------------------------------------------------
 --------------------------------------------- Printing ---------------------------------------------
 
-- Ç
+- [printables]*Ç
     Clears the screen and if there is something on the stack, it will pop it off and
     write it to the current turtle.
     If there is nothing on the stack, it will get by reference off of stack A
     and push to the stack then print without removing.
 
-- ç
+- [printables]*ç
     Clears the screen and if there is something on the stack, it will merely read it and
     write it to the current turtle.
     If there is nothing on the stack, it will get by reference off of stack B
     and push to the stack then print without removing.
 
-- Þ
+- [printables]*Þ
     Prints if there is something on the stack in which it will pop to print.
     If there is nothing on the stack, it will get by reference off of stack A
     and push to the stack then print without removing.
 
-- þ
+- [printables]*þ
     Prints if there is something on the stack in which it will merely read to print.
     If there is nothing on the stack, it will get by reference off of stack B
     and push to the stack then print without removing.
 
-- Ñ
+- [printables]*Ñ
     Prints if there is something on the stack in which it will pop to print.
     When done, it will reset the current turtle.
     If there is nothing on the stack, it will get by reference off of stack A
     and push to the stack then print without removing.
 
-- ñ
+- [printables]*ñ
     Prints if there is something on the stack in which it will merely read to print.
     When done, it will reset the current turtle.
     If there is nothing on the stack, it will get by reference off of stack B

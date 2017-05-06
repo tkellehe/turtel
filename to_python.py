@@ -133,14 +133,19 @@ import characters
 import re
 def tokenize(tkn):
     def translator(tkn):
-        if tkn.literal.value.count(u'¶') == 1:
-            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(tkn.literal.value) + "\").to_number())")
+        string = ""
+        if "string1" in tkn.symbols:
+            string = tkn.symbols["string1"].value
+        elif "string2" in tkn.symbols:
+            string = tkn.symbols["string2"].value
+        if string.count(u'¶') == 1:
+            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(string) + "\").to_number())")
         else:
-            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(tkn.literal.value) + "\"))")
+            tkn.props.lines.append("stack.append(ITEM(\"" + characters.escape(string) + "\"))")
 
     tokenize_basics(tkn)
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX("(?P<literal>[" + re.escape(characters.printables) + "]+)"),
+script.add(interpreter.Snippet(interpreter.REGEX(u"(?P<literal>(?:(?P<open1>“)(?P<string1>[" + re.escape(characters.printables) + u"]*)(?P<close1>”?))|(?:(?P<open2>“?)(?P<string2>[" + re.escape(characters.printables) + u"]*)(?P<close2>”)))"),
     0, tokenize))
 
 
@@ -268,32 +273,38 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>Ẉ)([shqet]?)'),
 # Most basic print that consumes from the current stack.
 def tokenize(tkn):
     def translator(tkn):
-        tkn.props.lines.append("if len(stack):")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
-        tkn.props.lines.append("elif len(A):")
-        tkn.props.lines.append("    stack.append(A[len(A)-1])")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+        else:
+            tkn.props.lines.append("if len(stack):")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
+            tkn.props.lines.append("elif len(A):")
+            tkn.props.lines.append("    stack.append(A[len(A)-1])")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>Þ)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>Þ)'),
     0, tokenize))
 
 #########################################################################################
 # Most basic print that does not consume from the current stack.
 def tokenize(tkn):
     def translator(tkn):
-        tkn.props.lines.append("if len(stack) > 0:")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
-        tkn.props.lines.append("elif len(B):")
-        tkn.props.lines.append("    stack.append(B[len(B)-1])")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+        else:
+            tkn.props.lines.append("if len(stack) > 0:")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
+            tkn.props.lines.append("elif len(B):")
+            tkn.props.lines.append("    stack.append(B[len(B)-1])")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>þ)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>þ)'),
     0, tokenize))
 
 #########################################################################################
@@ -301,16 +312,19 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>þ)'),
 def tokenize(tkn):
     def translator(tkn):
         tkn.props.lines.append("turtles[current_turtle].clear()")
-        tkn.props.lines.append("if len(stack) > 0:")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
-        tkn.props.lines.append("elif len(A):")
-        tkn.props.lines.append("    stack.append(A[len(A)-1])")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+        else:
+            tkn.props.lines.append("if len(stack) > 0:")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
+            tkn.props.lines.append("elif len(A):")
+            tkn.props.lines.append("    stack.append(A[len(A)-1])")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>Ç)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>Ç)'),
     0, tokenize))
 
 #########################################################################################
@@ -318,56 +332,69 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>Ç)'),
 def tokenize(tkn):
     def translator(tkn):
         tkn.props.lines.append("turtles[current_turtle].clear()")
-        tkn.props.lines.append("if len(stack) > 0:")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
-        tkn.props.lines.append("elif len(B):")
-        tkn.props.lines.append("    stack.append(B[len(B)-1])")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+        else:
+            tkn.props.lines.append("if len(stack) > 0:")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
+            tkn.props.lines.append("elif len(B):")
+            tkn.props.lines.append("    stack.append(B[len(B)-1])")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ç)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>ç)'),
     0, tokenize))
 
 #########################################################################################
 # Prints to the screen and resets the cursor.
 def tokenize(tkn):
     def translator(tkn):
-        tkn.props.lines.append("if len(stack) > 0:")
-        tkn.props.lines.append("    pos = turtles[current_turtle].pos")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
-        tkn.props.lines.append("    turtles[current_turtle].pos = pos")
-        tkn.props.lines.append("elif len(A):")
-        tkn.props.lines.append("    stack.append(A[len(A)-1])")
-        tkn.props.lines.append("    pos = turtles[current_turtle].pos")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
-        tkn.props.lines.append("    turtles[current_turtle].pos = pos")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+            tkn.props.lines.append("turtles[current_turtle].pos = pos")
+        else:
+            tkn.props.lines.append("if len(stack) > 0:")
+            tkn.props.lines.append("    pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack.pop().printify())")
+            tkn.props.lines.append("    turtles[current_turtle].pos = pos")
+            tkn.props.lines.append("elif len(A):")
+            tkn.props.lines.append("    stack.append(A[len(A)-1])")
+            tkn.props.lines.append("    pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+            tkn.props.lines.append("    turtles[current_turtle].pos = pos")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>Ñ)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>Ñ)'),
     0, tokenize))
 
 #########################################################################################
 # Prints to the screen and resets the cursor.
 def tokenize(tkn):
     def translator(tkn):
-        tkn.props.lines.append("if len(stack) > 0:")
-        tkn.props.lines.append("    pos = turtles[current_turtle].pos")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
-        tkn.props.lines.append("    turtles[current_turtle].pos = pos")
-        tkn.props.lines.append("elif len(B):")
-        tkn.props.lines.append("    stack.append(B[len(B)-1])")
-        tkn.props.lines.append("    pos = turtles[current_turtle].pos")
-        tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
-        tkn.props.lines.append("    turtles[current_turtle].pos = pos")
+        if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
+            tkn.props.lines.append("turtles[current_turtle].pos = pos")
+        else:
+            tkn.props.lines.append("if len(stack) > 0:")
+            tkn.props.lines.append("    pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[len(stack)-1].printify())")
+            tkn.props.lines.append("    turtles[current_turtle].pos = pos")
+            tkn.props.lines.append("elif len(B):")
+            tkn.props.lines.append("    stack.append(B[len(B)-1])")
+            tkn.props.lines.append("    pos = turtles[current_turtle].pos")
+            tkn.props.lines.append("    turtles[current_turtle].write(stack[0].printify())")
+            tkn.props.lines.append("    turtles[current_turtle].pos = pos")
         tkn.props.lines.append("cout(printify(turtles))")
     tokenize_basics(tkn)
     tkn.props.is_print_tkn = True
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ñ)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>ñ)'),
     0, tokenize))
 
 #########################################################################################
@@ -558,19 +585,26 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>⁺)([*sS]?)'),
 # Flattens a string by characters and floors a number.
 def tokenize(tkn):
     def translator(tkn):
-        tkn.props.lines.append("if len(stack):")
-        tkn.props.lines.append("    popped = stack.pop()")
-        tkn.props.lines.append("    if popped.is_number:")
-        tkn.props.lines.append("        popped.value = popped.split('¶')[0]")
-        tkn.props.lines.append("        stack.append(popped)")
-        tkn.props.lines.append("    elif popped.is_string:")
-        tkn.props.lines.append("        chars = popped.value.split('¶')")
-        tkn.props.lines.append("        if len(chars) == 1:")
-        tkn.props.lines.append("            chars = list(popped.value)")
-        tkn.props.lines.append("        for c in reversed(chars):")
-        tkn.props.lines.append("            stack.append(ITEM(c))")
+        if len(tkn.params) and len(tkn.params[0].value):
+            chars = tkn.params[0].value.split('¶')
+            if len(chars) == 1:
+                chars = list(tkn.params[0].value)
+            for c in reversed(chars):
+                tkn.props.lines.append("stack.append(ITEM('" + characters.escape(c) + "'))")
+        else:
+            tkn.props.lines.append("if len(stack):")
+            tkn.props.lines.append("    popped = stack.pop()")
+            tkn.props.lines.append("    if popped.is_number:")
+            tkn.props.lines.append("        popped.value = popped.value.split('¶')[0]")
+            tkn.props.lines.append("        stack.append(popped)")
+            tkn.props.lines.append("    elif popped.is_string:")
+            tkn.props.lines.append("        chars = popped.value.split('¶')")
+            tkn.props.lines.append("        if len(chars) == 1:")
+            tkn.props.lines.append("            chars = list(popped.value)")
+            tkn.props.lines.append("        for c in reversed(chars):")
+            tkn.props.lines.append("            stack.append(ITEM(c))")
         
     tokenize_basics(tkn)
     tkn.translate = translator
-script.add(interpreter.Snippet(interpreter.REGEX(u'(?P<literal>ḟ)'),
+script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.printables) + u']*)' + u'(?P<literal>ḟ)'),
     0, tokenize))
