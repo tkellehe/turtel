@@ -352,6 +352,7 @@ script.add(interpreter.Snippet(interpreter.REGEX(u'([' + re.escape(characters.pr
 def tokenize(tkn):
     def translator(tkn):
         if len(tkn.params) and len(tkn.params[0].value):
+            tkn.props.lines.append("turtles[current_turtle].clear()")
             tkn.props.lines.append("pos = turtles[current_turtle].pos")
             tkn.props.lines.append("turtles[current_turtle].write(\"" + characters.escape(tkn.params[0].value) + "\")")
             tkn.props.lines.append("turtles[current_turtle].pos = pos")
