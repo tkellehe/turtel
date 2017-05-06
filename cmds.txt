@@ -90,6 +90,8 @@ digits = printables[:-1]
     When done, it will reset the current turtle.
     If there is nothing on the stack, it will get by reference off of stack A
     and push to the stack then print without removing.
+    If something is provided to be printed rather than using the stack, it will
+    clear the screen then print without moving.
 
 - [printables]*ñ
     Prints if there is something on the stack in which it will merely read to print.
